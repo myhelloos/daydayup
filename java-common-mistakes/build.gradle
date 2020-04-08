@@ -2,7 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.2.6.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id "io.freefair.lombok" version "5.0.0-rc6"
-    id "com.diffplug.gradle.spotless" version "3.28.1"
+    id "com.diffplug.gradle.spotless"
     id 'java'
 }
 
@@ -31,6 +31,12 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
     implementation 'org.redisson:redisson-spring-boot-starter:3.12.4'
+    // https://mvnrepository.com/artifact/redis.clients/jedis
+    implementation 'redis.clients:jedis'
+
+    // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
+    implementation 'org.apache.httpcomponents:httpclient:4.5.12'
+
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
@@ -53,12 +59,18 @@ spotless {
 
         indentWithSpaces()
         trimTrailingWhitespace()
+        endWithNewline()
 
         replaceRegex 'Remove empty lines before end of block', '\\n[\\n]+(\\s*})(?=\\n)', '\n$1'
         replaceRegex 'Remove trailing empty comment lines.', '\n\\s*\\*(\n\\s*\\*/\n)', '$1'
+        custom 'Lambda fix', { it.replace('} )', '})').replace('} ,', '},') }
     }
 }
 
 test {
     useJUnitPlatform()
+}
+
+tasks.withType(JavaExec) {
+    jvmArgs = ['-Xms512m', '-Xmx512m']
 }
