@@ -1,0 +1,41 @@
+plugins {
+    id "com.diffplug.gradle.spotless"
+    id 'java'
+    id 'war'
+}
+
+group 'continuous.alfred'
+version '1.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.jodd:jodd-joy:4.1.1'
+
+    runtime 'mysql:mysql-connector-java:8.0.19'
+
+    providedCompile 'javax.servlet:javax.servlet-api:4.0.1'
+    providedRuntime 'javax.servlet.jsp:javax.servlet.jsp-api:2.3.1'
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+spotless {
+    java {
+        target project.fileTree(dir: 'src', include: '**/*.java')
+
+        googleJavaFormat()
+
+        indentWithSpaces()
+        trimTrailingWhitespace()
+        endWithNewline()
+
+        replaceRegex 'Remove empty lines before end of block', '\\n[\\n]+(\\s*})(?=\\n)', '\n$1'
+        replaceRegex 'Remove trailing empty comment lines.', '\n\\s*\\*(\n\\s*\\*/\n)', '$1'
+        custom 'Lambda fix', { it.replace('} )', '})').replace('} ,', '},') }
+    }
+}

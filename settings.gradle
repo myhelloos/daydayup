@@ -1,2 +1,4 @@
 rootProject.name = 'daydayup'
 include 'java-common-mistakes'
+include 'jodd-tutorial'
+
