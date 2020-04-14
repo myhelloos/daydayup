@@ -1,4 +1,4 @@
-package continuous.alfred.study.httpclient;
+package continuous.alfred.study.connectionpool.httpclient;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -49,7 +49,6 @@ public class HttpClientNotReuseController {
 
     try (CloseableHttpResponse response =
         client.execute(new HttpGet("http://127.0.0.1:8080/httpclientnotreuse/test"))) {
-
       return EntityUtils.toString(response.getEntity());
     } catch (Exception ex) {
       ex.printStackTrace();
@@ -67,7 +66,6 @@ public class HttpClientNotReuseController {
                 .build();
         CloseableHttpResponse response =
             client.execute(new HttpGet("http://127.0.0.1:8080/httpclientnotreuse/test"))) {
-
       return EntityUtils.toString(response.getEntity());
     } catch (Exception ex) {
       ex.printStackTrace();
@@ -80,7 +78,6 @@ public class HttpClientNotReuseController {
   public String right() {
     try (CloseableHttpResponse response =
         httpClient.execute(new HttpGet("http://127.0.0.1:8080/httpclientnotreuse/test"))) {
-
       return EntityUtils.toString(response.getEntity());
     } catch (Exception ex) {
       ex.printStackTrace();
